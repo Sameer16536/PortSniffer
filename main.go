@@ -1,26 +1,41 @@
+// PortSniffer: A simple concurrent port scanner in Go
+// This program scans a range of ports on a given host to check which ports are open.
+// It demonstrates the use of goroutines, WaitGroup, and TCP connections with timeouts.
 package main
 
 import (
-	"fmt"
-	"time"
+	"fmt"  // For printing output
+	"sync" // For synchronizing goroutines
+	"time" // For measuring elapsed time and setting timeouts
 )
 
 func main() {
-	// 1. The Target
-	// scanme.nmap.org is a service explicitly built for testing scanners.
-
+	// 1. Define the target host to scan.
+	// scanme.nmap.org is a public host for testing port scanners.
 	host := "scanme.nmap.org"
 
-	fmt.Printf("Scanning %s (Sequential)...\n", host)
+	// 2. Print a message and record the start time for performance measurement.
+	fmt.Printf("Scanning %s (Concurrent)...\n", host)
 	start := time.Now()
 
-	// 2. The Loop (Ports 75 to 85)
-	// We only check a few because checking 1000 sequentially takes forever.
+	// 3. Create a WaitGroup to wait for all port scan goroutines to finish.
+	wg := sync.WaitGroup{}
 
+	// 4. Loop through the desired port range (75 to 85 inclusive).
+	// For each port, start a goroutine to scan it concurrently.
 	for port := 75; port <= 85; port++ {
-		scanPort(host, port)
+		wg.Add(1) // Increment WaitGroup counter for each goroutine
+
+		go func(p int) {
+			defer wg.Done()   // Decrement counter when goroutine completes
+			scanPort(host, p) // Scan the port
+		}(port) // Pass the current port as an argument to avoid closure issues
 	}
 
+	// 5. Wait for all port scan goroutines to finish before continuing.
+	wg.Wait()
+
+	// 6. Print the total time taken for the scan.
 	elapsed := time.Since(start)
 	fmt.Printf("Scanning completed in %s\n", elapsed)
 }
