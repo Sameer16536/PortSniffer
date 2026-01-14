@@ -1,58 +1,61 @@
-🟢 Phase 1: The Basics (Sequential)
-[ ] 1. Setup & Flags
 
-[ ] Create main.go.
+🟢 Phase 1: The Basics (Sequential)
+[x] 1. Setup & Flags
+
+[x] Create main.go.
 
 [ ] Use the flag package to accept arguments (e.g., -host google.com or -start 1 -end 1024).
 
-[ ] 2. The Scanner Logic
+[x] 2. The Scanner Logic
 
-[ ] Write a function scanPort(protocol, hostname, port).
+[x] Write a function scanPort(protocol, hostname, port).
 
-[ ] Use net.DialTimeout to try connecting. If it connects, the port is OPEN. If it times out, it is CLOSED.
+[x] Use net.DialTimeout to try connecting. If it connects, the port is OPEN. If it times out, it is CLOSED.
 
-[ ] 3. Sequential Execution
+[x] 3. Sequential Execution
 
-[ ] Loop from start_port to end_port.
+[x] Loop from start_port to end_port.
 
-[ ] Call scanPort one by one.
+[x] Call scanPort one by one.
 
-[ ] Measure time taken (It will be slow).
+[x] Measure time taken (It will be slow).
+
 
 🟡 Phase 2: The Speed (Concurrent)
-[ ] 4. Goroutines
+[x] 4. Goroutines
 
-[ ] Wrap the scanPort call with the go keyword.
+[x] Wrap the scanPort call with the go keyword.
 
-[ ] The Problem: Observer the program exiting immediately (because main finishes before workers).
+[x] The Problem: Observer the program exiting immediately (because main finishes before workers).
 
-[ ] 5. Synchronization (The Fix)
+[x] 5. Synchronization (The Fix)
 
-[ ] Implement sync.WaitGroup.
+[x] Implement sync.WaitGroup.
 
-[ ] Add(1) before starting a thread.
+[x] Add(1) before starting a thread.
 
-[ ] Done() when thread finishes.
+[x] Done() when thread finishes.
 
-[ ] Wait() in main to block until finished.
+[x] Wait() in main to block until finished.
+
 
 🔴 Phase 3: The Safety (Thread-Safe Data)
-[ ] 6. Gathering Results
+[x] 6. Gathering Results
 
-[ ] Create a slice var openPorts []int.
+[x] Create a slice var openPorts []int.
 
-[ ] The Crash: Try appending to this slice from inside Goroutines. (Witness the Race Condition).
+[x] The Crash: Try appending to this slice from inside Goroutines. (Witness the Race Condition).
 
-[ ] 7. Mutex Locking
+[x] 7. Mutex Locking
 
-[ ] Use sync.Mutex.
+[x] Use sync.Mutex.
 
-[ ] Lock() before appending.
+[x] Lock() before appending.
 
-[ ] Unlock() after appending.
+[x] Unlock() after appending.
 
-[ ] 8. Final Polish
+[x] 8. Final Polish
 
-[ ] Sort the results (because threads finish in random order).
+[x] Sort the results (because threads finish in random order).
 
-[ ] Print "Open Ports: 80, 443, 8080".
+[x] Print "Open Ports: 80, 443, 8080".
