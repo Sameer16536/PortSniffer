@@ -3,7 +3,7 @@
 package main
 
 import (
-	"fmt"     // For printing output
+	// For printing output
 	"net"     // For network connections
 	"strconv" // For converting int to string
 	"time"    // For setting connection timeout
@@ -27,5 +27,4 @@ func scanPort(host string, port int) {
 	// 3. Connection succeeded: port is OPEN.
 	// Always close the connection to avoid resource leaks.
 	conn.Close()
-	fmt.Printf("✅ Port %d is OPEN\n", port)
 }
